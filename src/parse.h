@@ -53,3 +53,5 @@ struct element parser(char line[]){
 
 	return *output;
 }
+
+// for if statments make { act as an end if command
