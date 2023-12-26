@@ -22,7 +22,6 @@ int main(int argc, char **argv){
 	char buffer[MAXLINE];
 
 	while (fgets(buffer, MAXLINE, fptr) != NULL){
-		printf(buffer);
 		struct element el = parser(buffer);
 		printElement(el);
 	}
