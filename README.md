@@ -6,4 +6,4 @@ Since the language uses bytecode you need to compile your `.d` to `.dbc` (D Byte
 
 To do this you can use `dic` (D Init Compiler)
 
-Then to run the code you can use the interpriter `d`
+Then to run the code you can use the interpreter `d`
