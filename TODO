@@ -1,0 +1,3 @@
+add checks to make mem safe
+output errors if the systax is bad
+make } act as endif and endfunc 
