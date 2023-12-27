@@ -5,7 +5,7 @@ typedef struct element {
 	char *command;
 	int argCount;
 	char *args; // sep by #
-};
+} element;
 
 int countElements(char line[]){
 	int counter = 1;
@@ -18,39 +18,38 @@ int countElements(char line[]){
 }
 
 char *getElement(char line[], int elNum){
-	if (elNum > countElements(line)){
-		return "(null)";
-	}
-	int elementCounter = 0;
 	char *output = malloc(32);
+	int elementCount = 0;
+	int charCount = 0;
 	for (int i = 0; i < strlen(line); i++){
-		if (line[i] != ' '){       	
-			output[i] = line[i];
+		if (line[i] == ' ' || line[i] == '\n'){
+			elementCount++;
+			if (elementCount == elNum){
+				output[charCount+1] = '\0';
+				return output;
+			}
+			output = malloc(32);
 		}else{
-			elementCounter++;
-			if (elementCounter == elNum){
-				break;
+			if (elementCount == elNum - 1){
+				output[charCount] = line[i];
+		       		charCount++;	
 			}
 		}
 	}
-	strcat(output,"\0");
-	return output;
+	return "(null)";
 }
 
 
 struct element parser(char line[]){
 	struct element *output = malloc(1024); 	
 	output -> command = getElement(line, 1);
-	char args[512];  
-	int counter = 2;
-	while (strcmp(getElement(line, counter), "(null)") != 0){ 
+	output -> argCount = countElements(line) - 1;
+	char *args = malloc(32);
+	for (int i = 0; i < output -> argCount; i++){
+		strcat(args, getElement(line, i + 2));
 		strcat(args, "#");
-		strcat(args, getElement(line, counter));
-		counter++;
 	}
-	output -> args = args; // currently broken
-	output -> argCount = countElements(line);
-
+	output -> args = args;	
 	return *output;
 }
 
