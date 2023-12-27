@@ -22,8 +22,10 @@ int main(int argc, char **argv){
 	char buffer[MAXLINE];
 
 	while (fgets(buffer, MAXLINE, fptr) != NULL){
-		struct element el = parser(buffer);
-		printElement(el);
+		if (strcmp(buffer, "\n")){
+			struct element el = parser(buffer);
+			printElement(el);
+		}
 	}
 
 	return 0;
