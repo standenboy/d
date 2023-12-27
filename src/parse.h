@@ -7,12 +7,26 @@ typedef struct element {
 	char *args; // sep by #
 } element;
 
+int toggle(int b){
+	if (b == 1){
+		return 0;
+	}
+	return 1;
+}
+
 int countElements(char line[]){
 	int counter = 1;
+	int inquotes = 0;
 	for (int i = 0; i < strlen(line); i++){
-		if (line[i] == ' ') {
-			counter++;
-		} 
+		if (line[i] == '"'){
+			inquotes = toggle(inquotes);
+		}
+	
+		if (inquotes != 1){
+			if (line[i] == ' ') {
+				counter++;
+			}
+		}	
 	}
 	return counter;
 }
@@ -21,14 +35,26 @@ char *getElement(char line[], int elNum){
 	char *output = malloc(32);
 	int elementCount = 0;
 	int charCount = 0;
+	int inquotes = 0;
 	for (int i = 0; i < strlen(line); i++){
+		if (line[i] == '"'){
+			inquotes = toggle(inquotes);
+		}
+
 		if (line[i] == ' ' || line[i] == '\n'){
-			elementCount++;
-			if (elementCount == elNum){
-				output[charCount+1] = '\0';
-				return output;
-			}
-			output = malloc(32);
+			if (inquotes != 1){
+				elementCount++;
+				if (elementCount == elNum){
+					output[charCount+1] = '\0';
+					return output;
+				}
+				output = malloc(32);
+			}else {
+				if (elementCount == elNum - 1){
+					output[charCount] = line[i];
+		       			charCount++;	
+				}
+			}	
 		}else{
 			if (elementCount == elNum - 1){
 				output[charCount] = line[i];
