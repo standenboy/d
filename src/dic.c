@@ -17,8 +17,17 @@ void printElement(struct element el){
 }
 
 int main(int argc, char **argv){
+	if (argc <= 1){
+		printf("invalid args\n");
+		exit(2);
+	}
 	FILE *fptr;
 	fptr = fopen(argv[1], "r");
+	if (fptr == NULL){
+		printf("error opening: %s\n", argv[1]); 
+		exit(1);
+	}
+	
 	char buffer[MAXLINE];
 
 	while (fgets(buffer, MAXLINE, fptr) != NULL){
