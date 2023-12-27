@@ -14,8 +14,17 @@ int toggle(int b){
 	return 1;
 }
 
+void checkStr(char *string){
+	if (string == NULL){
+		printf("out of mem!\n");
+		free(string);
+		exit(1);
+	}
+}
+
 char *strip(char c, char buffer[]){
 	char *output = malloc(strlen(buffer));
+	checkStr(output);	
 	int currentChar = 0;
 	for (int i = 0; i < strlen(buffer); i++){
 		if (buffer[i] != c){
@@ -45,6 +54,7 @@ int countElements(char line[]){
 
 char *getElement(char line[], int elNum){
 	char *output = malloc(32);
+	checkStr(output);	
 	int elementCount = 0;
 	int charCount = 0;
 	int inquotes = 0;
@@ -61,6 +71,7 @@ char *getElement(char line[], int elNum){
 					return output;
 				}
 				output = malloc(32);
+				checkStr(output);	
 			}else {
 				if (elementCount == elNum - 1){
 					output[charCount] = line[i];
@@ -77,19 +88,22 @@ char *getElement(char line[], int elNum){
 	return "(null)";
 }
 
-
 struct element parser(char line[]){
 	line = strip('	', line);
 
 	struct element *output = malloc(1024); 	
+	
 	output -> command = getElement(line, 1);
 	output -> argCount = countElements(line) - 1;
+	
 	char *args = malloc(32);
+	checkStr(args);	
 	for (int i = 0; i < output -> argCount; i++){
 		strcat(args, getElement(line, i + 2));
 		strcat(args, "#");
 	}
 	output -> args = args;	
+	
 	return *output;
 }
 
