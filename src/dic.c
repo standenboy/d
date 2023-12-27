@@ -8,7 +8,7 @@ void printElement(struct element el){
 	printf("{ command: %s, argCount: %d, args: ", el.command, el.argCount); 
 	for (int i = 0; i < strlen(el.args); i++){
 		if (el.args[i] == '#'){
-			printf(" ");
+			printf(", ");
 		} else{
 			printf("%c", el.args[i]);
 		}
