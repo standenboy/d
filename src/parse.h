@@ -14,6 +14,18 @@ int toggle(int b){
 	return 1;
 }
 
+char *strip(char c, char buffer[]){
+	char *output = malloc(strlen(buffer));
+	int currentChar = 0;
+	for (int i = 0; i < strlen(buffer); i++){
+		if (buffer[i] != c){
+			output[currentChar] = buffer[i];
+			currentChar++;
+		}
+	}
+	return output;
+}
+
 int countElements(char line[]){
 	int counter = 1;
 	int inquotes = 0;
@@ -67,6 +79,8 @@ char *getElement(char line[], int elNum){
 
 
 struct element parser(char line[]){
+	line = strip('	', line);
+
 	struct element *output = malloc(1024); 	
 	output -> command = getElement(line, 1);
 	output -> argCount = countElements(line) - 1;
