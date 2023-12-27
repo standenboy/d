@@ -1,6 +1,10 @@
 #include<string.h>
 #include<stdlib.h>
 
+#define MAXARGS 12
+#define MAXARGLEN 64
+#define MAXELELEMT MAXARGS * MAXARGS 
+
 typedef struct element {
 	char *command;
 	int argCount;
@@ -53,7 +57,7 @@ int countElements(char line[]){
 }
 
 char *getElement(char line[], int elNum){
-	char *output = malloc(32);
+	char *output = malloc(MAXARGLEN);
 	checkStr(output);	
 	int elementCount = 0;
 	int charCount = 0;
@@ -70,7 +74,7 @@ char *getElement(char line[], int elNum){
 					output[charCount+1] = '\0';
 					return output;
 				}
-				output = malloc(32);
+				output = malloc(MAXARGLEN);
 				checkStr(output);	
 			}else {
 				if (elementCount == elNum - 1){
@@ -91,12 +95,12 @@ char *getElement(char line[], int elNum){
 struct element parser(char line[]){
 	line = strip('	', line);
 
-	struct element *output = malloc(1024); 	
+	struct element *output = malloc(MAXELELEMT); 	
 	
 	output -> command = getElement(line, 1);
 	output -> argCount = countElements(line) - 1;
 	
-	char *args = malloc(32);
+	char *args = malloc(MAXARGLEN);
 	checkStr(args);	
 	for (int i = 0; i < output -> argCount; i++){
 		strcat(args, getElement(line, i + 2));
